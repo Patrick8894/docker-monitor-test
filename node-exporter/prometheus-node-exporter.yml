@@ -1,0 +1,3 @@
+collectors:
+  - textfile:
+      directory: /etc/custom-metrics
