@@ -1,11 +1,20 @@
 groups:
-  - name: high_disk_usage
+  - name: file changed
     rules:
-      - alert: HighDiskUsage
-        expr: 100 - (node_filesystem_free_bytes / node_filesystem_size_bytes * 100) > 30
-        for: 0m
+      - alert: fileChanged
+        expr: increase(fileChanged[1m]) > 0
+        for: 10s
         labels:
           severity: warning
         annotations:
-          summary: "High disk usage detected"
-          description: "Disk usage is > 10%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+          summary: "File changed"
+          description: "File changed PATH = {{ $labels.path }}"
+
+      - alert: authenticated_command_executed
+        expr: authCmdCalled == 1
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Authenticated command was executed"
+          description: "Authenticated command was executed"
